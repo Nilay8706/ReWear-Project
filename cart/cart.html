@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cart | ReWear</title>
+  <link rel="stylesheet" href="../home_page/home_page.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #232946 0%, #16161a 100%);
+      color: #f4f4f8;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .cart-container {
+      max-width: 700px;
+      margin: 2.5rem auto;
+      background: #181824;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 32px rgba(99,102,241,0.18);
+      padding: 2.5rem 2rem 2rem 2rem;
+      border: 1.5px solid #6366f1;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .cart-title {
+      color: #4f46e5;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+    .cart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      min-height: 120px;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      background: #232946;
+      border-radius: 0.8rem;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.18);
+      border: 1.5px solid #353570;
+      padding: 1rem 1.2rem;
+      gap: 1.2rem;
+      position: relative;
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+    .cart-item:hover {
+      box-shadow: 0 8px 32px rgba(99,102,241,0.22);
+      border-color: #6366f1;
+    }
+    .cart-item-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 0.7rem;
+      object-fit: cover;
+      background: #fff;
+      border: 1.5px solid #6366f1;
+    }
+    .cart-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .cart-item-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #a5b4fc;
+    }
+    .cart-item-desc {
+      font-size: 0.98rem;
+      color: #c7d2fe;
+    }
+    .remove-cart-btn {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px #ef4444aa;
+    }
+    .remove-cart-btn:hover {
+      background: #b91c1c;
+    }
+    .cart-empty {
+      text-align: center;
+      color: #a5b4fc;
+      font-size: 1.2rem;
+      margin: 2rem 0 1rem 0;
+    }
+    .cart-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    .purchase-btn {
+      background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+      color: #fff;
+      border: none;
+      border-radius: 0.7rem;
+      padding: 0.8rem 2.2rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #6366f1aa;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .purchase-btn:hover {
+      background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%);
+      box-shadow: 0 8px 32px #6366f1aa;
+    }
+    .purchase-msg {
+      text-align: center;
+      color: #22c55e;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-top: 1.5rem;
+      animation: fadeIn 0.7s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 800px) {
+      .cart-container { padding: 1rem 0.2rem; }
+      .cart-item { flex-direction: column; align-items: flex-start; gap: 0.7rem; }
+      .cart-item-img { width: 100%; height: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cart-container">
+    <div class="cart-title">My Cart</div>
+    <div class="cart-list" id="cartList"></div>
+    <div class="cart-actions" id="cartActions" style="display:none;">
+      <button class="purchase-btn" id="purchaseBtn">Purchase</button>
+    </div>
+    <div class="purchase-msg" id="purchaseMsg" style="display:none;"></div>
+  </div>
+  <script>
+    // Example product data for mapping product file to info (should match your product_view files)
+    const productData = {
+      'denim_jacket.html': {
+        title: 'Denim Jacket',
+        desc: 'Size: M | Like New',
+        img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80'
+      },
+      'summer_dress.html': {
+        title: 'Summer Dress',
+        desc: 'Size: S | Gently Used',
+        img: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80'
+      },
+      'graphic_tee.html': {
+        title: 'Graphic Tee',
+        desc: 'Size: L | Good Condition',
+        img: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80'
+      },
+      'kids_hoodie.html': {
+        title: 'Kids Hoodie',
+        desc: 'Size: XS | Like New',
+        img: 'https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=400&q=80'
+      }
+      // Add more mappings as needed
+    };
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+    function setCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      window.dispatchEvent(new Event('storage'));
+    }
+    function renderCart() {
+      const cartList = document.getElementById('cartList');
+      const cartActions = document.getElementById('cartActions');
+      const purchaseMsg = document.getElementById('purchaseMsg');
+      const cart = getCart();
+      cartList.innerHTML = '';
+      purchaseMsg.style.display = 'none';
+      if (!cart.length) {
+        cartList.innerHTML = '<div class="cart-empty">Your cart is empty. Add products from the product page!</div>';
+        cartActions.style.display = 'none';
+        return;
+      }
+      cart.forEach((productFile, idx) => {
+        const data = productData[productFile] || { title: productFile, desc: '', img: '' };
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
+        itemDiv.innerHTML = `
+          <img class="cart-item-img" src="${data.img}" alt="${data.title}">
+          <div class="cart-item-info">
+            <div class="cart-item-title">${data.title}</div>
+            <div class="cart-item-desc">${data.desc}</div>
+          </div>
+          <button class="remove-cart-btn" title="Remove from cart">&times;</button>
+        `;
+        itemDiv.querySelector('.remove-cart-btn').onclick = function() {
+          cart.splice(idx, 1);
+          setCart(cart);
+          renderCart();
+        };
+        cartList.appendChild(itemDiv);
+      });
+      cartActions.style.display = 'flex';
+    }
+    document.addEventListener('DOMContentLoaded', renderCart);
+    window.addEventListener('storage', renderCart);
+    document.getElementById('purchaseBtn').addEventListener('click', function() {
+      const cart = getCart();
+      if (!cart.length) return;
+      // Save order to localStorage
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const email = localStorage.getItem('loggedInUserEmail');
+      const user = users.find(u => u.email === email) || { name: 'Guest', email: email || 'unknown' };
+      const order = {
+        user: { name: user.name, email: user.email },
+        items: cart.slice(),
+        date: new Date().toISOString()
+      };
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+      setCart([]);
+      renderCart();
+      const msg = document.getElementById('purchaseMsg');
+      msg.textContent = 'Thank you for your purchase! Your items will be shipped soon.';
+      msg.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

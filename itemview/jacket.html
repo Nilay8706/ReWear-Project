@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jacket | ReWear</title>
+  <link rel="stylesheet" href="../home_page/home_page.css">
+  <link rel="stylesheet" href="../userprofile/profile.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #232946 0%, #16161a 100%);
+      color: #f4f4f8;
+    }
+    .itemview-container {
+      max-width: 900px;
+      margin: 2.5rem auto;
+      background: #181824;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 32px rgba(99,102,241,0.18);
+      padding: 2.5rem 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      border: 1.5px solid #6366f1;
+    }
+    .itemview-main {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .itemview-images {
+      flex: 1;
+      min-width: 220px;
+      background: #232946;
+      border-radius: 1rem;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 16px rgba(99,102,241,0.10);
+      border: 1.5px solid #353570;
+    }
+    .add-img-label {
+      background: #6366f1;
+      color: #fff;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      border: none;
+      display: inline-block;
+    }
+    .add-img-label:hover {
+      background: #4f46e5;
+    }
+    #imgInput {
+      display: none;
+    }
+    #imgPreview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 0.7rem;
+      justify-content: center;
+    }
+    #imgPreview img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      border: 1.5px solid #6366f1;
+      box-shadow: 0 2px 8px #6366f1aa;
+    }
+    .itemview-details {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      background: #232946;
+      border-radius: 1rem;
+      padding: 1.2rem 2rem;
+      box-shadow: 0 2px 16px rgba(99,102,241,0.10);
+      border: 1.5px solid #353570;
+      min-width: 220px;
+    }
+    #productDesc {
+      width: 100%;
+      min-height: 80px;
+      border-radius: 0.7rem;
+      border: 1.5px solid #353570;
+      padding: 1rem 1.2rem;
+      font-size: 1.08rem;
+      background: #181824;
+      color: #a5b4fc;
+      resize: vertical;
+      font-family: inherit;
+    }
+    .status-btn {
+      background: linear-gradient(90deg, #6366f1 60%, #4f46e5 100%);
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      margin-right: 0.7rem;
+      margin-bottom: 0.3rem;
+      box-shadow: 0 2px 8px #6366f1aa;
+    }
+    .status-btn.swap {
+      background: linear-gradient(90deg, #6366f1 60%, #4f46e5 100%);
+    }
+    .status-btn:active {
+      transform: scale(0.98);
+    }
+    .itemview-previous {
+      margin-top: 2rem;
+      background: #232946;
+      border-radius: 1rem;
+      padding: 1.2rem 2rem;
+      box-shadow: 0 2px 16px rgba(99,102,241,0.10);
+      border: 1.5px solid #353570;
+    }
+    .itemview-previous-title {
+      color: #4f46e5;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+    .itemview-previous-listings {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      min-height: 60px;
+    }
+    .itemview-prev-card {
+      width: 90px;
+      height: 40px;
+      background: #232946;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #a5b4fc;
+      font-weight: 600;
+      border: 1.5px solid #353570;
+      margin-bottom: 0.5rem;
+      transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .itemview-prev-card:hover {
+      background: #6366f1;
+      color: #fff;
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 8px 32px rgba(99,102,241,0.22);
+      border-color: #6366f1;
+    }
+    @media (max-width: 900px) {
+      .itemview-container { padding: 1rem 0.2rem; }
+      .itemview-main { flex-direction: column; align-items: center; gap: 1.2rem; }
+      .itemview-details { min-width: 0; width: 100%; }
+      .itemview-images { min-width: 0; width: 100%; }
+      .itemview-previous { padding: 1.2rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo" id="brandLogo" tabindex="0">ReWear</div>
+  </header>
+  <div class="itemview-container">
+    <div class="itemview-main">
+      <div class="itemview-images" id="itemImages">
+        <label class="add-img-label" for="imgInput">+ Add Images</label>
+        <input type="file" id="imgInput" accept="image/*" multiple>
+        <div id="imgPreview"></div>
+      </div>
+      <div class="itemview-details">
+        <textarea id="productDesc" placeholder="Add Product Description...">Classic denim jacket, perfect for layering in all seasons.</textarea>
+        <div style="display: flex; gap: 0.7rem; align-items: center;">
+          <button id="statusBtn" class="status-btn">Available</button>
+          <button id="swapBtn" class="status-btn swap">Swap</button>
+        </div>
+      </div>
+    </div>
+    <div class="itemview-previous">
+      <div class="itemview-previous-title">Previous Listings:</div>
+      <div class="itemview-previous-listings" id="previousListings"></div>
+    </div>
+  </div>
+  <script>
+    // Brand logo navigation
+    document.getElementById('brandLogo').addEventListener('click', function() {
+      window.location.href = '../home_page/home_page.html';
+    });
+    document.getElementById('brandLogo').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.location.href = '../home_page/home_page.html';
+      }
+    });
+    // Image upload preview
+    const imgInput = document.getElementById('imgInput');
+    const imgPreview = document.getElementById('imgPreview');
+    imgInput.addEventListener('change', function() {
+      imgPreview.innerHTML = '';
+      Array.from(imgInput.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          imgPreview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+    // Status button logic
+    const statusBtn = document.getElementById('statusBtn');
+    const swapBtn = document.getElementById('swapBtn');
+    let status = 'Available';
+    statusBtn.addEventListener('click', function() {
+      status = 'Available';
+      statusBtn.style.background = 'linear-gradient(90deg, #22c55e 60%, #16a34a 100%)';
+      swapBtn.style.background = 'linear-gradient(90deg, #6366f1 60%, #4f46e5 100%)';
+    });
+    swapBtn.addEventListener('click', function() {
+      status = 'Swap';
+      swapBtn.style.background = 'linear-gradient(90deg, #22c55e 60%, #16a34a 100%)';
+      statusBtn.style.background = 'linear-gradient(90deg, #6366f1 60%, #4f46e5 100%)';
+    });
+    // Previous listings (simulate with localStorage or demo data)
+    function loadPreviousListings() {
+      let listings = JSON.parse(localStorage.getItem('userListings') || '[]');
+      if (!listings.length) {
+        listings = ['Jacket', 'Dress', 'Tee', 'Hoodie'];
+      }
+      const prevDiv = document.getElementById('previousListings');
+      prevDiv.innerHTML = '';
+      listings.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'itemview-prev-card';
+        div.textContent = item;
+        prevDiv.appendChild(div);
+      });
+    }
+    loadPreviousListings();
+  </script>
+</body>
+</html>

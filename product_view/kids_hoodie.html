@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Hoodie | ReWear</title>
+    <link rel="stylesheet" href="../home_page/home_page.css">
+    <link rel="stylesheet" href="product_view.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav style="flex:1; display:flex; align-items:center; justify-content:flex-start;">
+            <a href="../home_page/home_page.html" style="margin-left:0;">Home</a>
+        </nav>
+        <div class="logo" id="brandLogo" tabindex="0">ReWear</div>
+        <nav style="flex:1; display:flex; align-items:center; justify-content:flex-end;">
+            <a href="#" id="logoutBtn" style="display:none;">Logout</a>
+        </nav>
+    </header>
+    <div class="search-bar-container">
+        <form id="searchForm" action="../home_page/home_page.html">
+            <input type="text" id="searchBox" placeholder="Search for products..." autocomplete="off">
+            <button type="submit"><span>&#128269;</span></button>
+        </form>
+    </div>
+    <main class="product-view-container">
+        <div class="product-main-section">
+            <div class="main-image" id="mainImage">
+                <img src="https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=400&q=80" alt="Kids Hoodie">
+            </div>
+            <div class="product-details">
+                <div class="product-title" id="productTitle">Kids Hoodie</div>
+                <div class="product-description" id="productDescription">
+                    Cozy kids hoodie. Size: XS. Like New. Soft fleece lining, perfect for chilly days. Fun and comfortable for kids.
+                </div>
+                <button id="addToCartBtn" class="add-to-cart-btn">Add to Cart</button>
+            </div>
+        </div>
+        <div>
+            <div style="color:#6366f1;font-weight:600;margin-bottom:0.5rem;">Product Images</div>
+            <div class="product-thumbnails" id="productThumbnails">
+                <div class="thumbnail selected"><img src="https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=110&q=80&h=140" alt="Kids Hoodie 1"></div>
+                <div class="thumbnail"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=110&q=80&h=140" alt="Kids Hoodie 2"></div>
+                <div class="thumbnail"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=110&q=80&h=140" alt="Kids Hoodie 3"></div>
+                <div class="thumbnail"><img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=110&q=80&h=140" alt="Kids Hoodie 4"></div>
+            </div>
+        </div>
+        <div id="floatingCart" class="floating-cart" tabindex="0" title="View Cart">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M7 18c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm10 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zM7.16 16l.94-2h7.45c.75 0 1.41-.41 1.75-1.03l3.24-5.88A1 1 0 0 0 20.5 6H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 16.37 5.48 18 7 18h12v-2H7.42c-.14 0-.25-.11-.25-.25z" fill="#6366f1"/></svg>
+            <span id="cartCount" class="cart-count">0</span>
+        </div>
+    </main>
+    <script src="product_view.js"></script>
+    <script>
+    // Cart logic
+    function getCart() {
+        return JSON.parse(localStorage.getItem('cart') || '[]');
+    }
+    function setCart(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    function updateCartCount() {
+        var cart = getCart();
+        var count = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+        var cartCount = document.getElementById('cartCount');
+        if (cartCount) cartCount.textContent = count;
+    }
+    function addToCart(product) {
+        var cart = getCart();
+        var idx = cart.findIndex(i => i.id === product.id);
+        if (idx !== -1) {
+            cart[idx].qty += 1;
+        } else {
+            cart.push({...product, qty: 1});
+        }
+        setCart(cart);
+        updateCartCount();
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        var brandLogo = document.getElementById('brandLogo');
+        if (brandLogo) {
+            brandLogo.addEventListener('click', function() {
+                window.location.href = '../home_page/home_page.html';
+            });
+            brandLogo.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.location.href = '../home_page/home_page.html';
+                }
+            });
+        }
+        // Cart button logic
+        updateCartCount();
+        var addToCartBtn = document.getElementById('addToCartBtn');
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', function() {
+                addToCart({
+                    id: 'kids_hoodie',
+                    name: 'Kids Hoodie',
+                    img: 'https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=400&q=80',
+                    price: 0
+                });
+                addToCartBtn.textContent = 'Added!';
+                addToCartBtn.disabled = true;
+                setTimeout(function() {
+                    addToCartBtn.textContent = 'Add to Cart';
+                    addToCartBtn.disabled = false;
+                }, 1200);
+            });
+        }
+        var floatingCart = document.getElementById('floatingCart');
+        if (floatingCart) {
+            floatingCart.addEventListener('click', function() {
+                alert('Cart: ' + getCart().map(i => i.name + ' x' + i.qty).join(', ') || 'Empty');
+            });
+        }
+        window.addEventListener('storage', updateCartCount);
+    });
+    </script>
+    <style>
+    .add-to-cart-btn {
+        background: linear-gradient(90deg, #6366f1 60%, #4f46e5 100%);
+        color: #fff;
+        border: none;
+        border-radius: 0.7rem;
+        padding: 0.7rem 1.7rem;
+        font-size: 1.13rem;
+        font-weight: 700;
+        margin-top: 1.2rem;
+        margin-bottom: 0.7rem;
+        box-shadow: 0 2px 12px #6366f133;
+        cursor: pointer;
+        transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+        outline: none;
+    }
+    .add-to-cart-btn:hover, .add-to-cart-btn:focus {
+        background: #4f46e5;
+        box-shadow: 0 4px 18px #6366f1aa;
+        transform: translateY(-2px) scale(1.03);
+    }
+    .floating-cart {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 4px 24px #6366f1aa;
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        cursor: pointer;
+        transition: box-shadow 0.18s, transform 0.18s;
+    }
+    .floating-cart:focus, .floating-cart:hover {
+        box-shadow: 0 8px 32px #6366f1cc;
+        transform: scale(1.07);
+    }
+    .cart-count {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #6366f1;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px #6366f1aa;
+        border: 2px solid #fff;
+        pointer-events: none;
+    }
+    </style>
+</body>
+</html>

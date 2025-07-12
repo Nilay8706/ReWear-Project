@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <input type="text" class="search-bar" id="searchBar" placeholder="Type 'user', 'order', or 'listing' to navigate...">
+            <span class="admin-title">Admin Panel</span>
+        </header>
+        <nav class="admin-nav">
+            <button onclick="showSection('users')">Manage User</button>
+            <button onclick="showSection('orders')">Manage Orders</button>
+            <button onclick="showSection('listings')">Manage Listings</button>
+        </nav>
+        <section class="admin-section">
+            <h3 id="section-title">Manage Users</h3>
+            <div id="admin-users-section"></div>
+    <script>
+    // Advanced render for users who have logged in
+    function getAllLoggedInUsers() {
+      // Assume 'users' array in localStorage, and 'loginHistory' array of emails
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const loginHistory = JSON.parse(localStorage.getItem('loginHistory') || '[]');
+      // loginHistory is an array of emails who have logged in
+      // If not present, fallback to all users
+      if (!loginHistory.length) return users;
+      return users.filter(u => loginHistory.includes(u.email));
+    }
+
+    function renderAdminUsers() {
+      const section = document.getElementById('admin-users-section');
+      const users = getAllLoggedInUsers();
+      if (!users.length) {
+        section.innerHTML = '<div class="admin-empty">No users have logged in yet.</div>';
+        return;
+      }
+      section.innerHTML = `<div class="admin-users-list">
+        ${users.map(user => `
+          <div class="admin-user-card">
+            <div class="admin-user-avatar">
+              <svg width="44" height="44" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="40" fill="#6366f1"/>
+                <ellipse cx="40" cy="32" rx="20" ry="20" fill="#fff"/>
+                <ellipse cx="40" cy="60" rx="28" ry="14" fill="#ede9fe"/>
+                <ellipse cx="40" cy="62" rx="22" ry="10" fill="#fff"/>
+              </svg>
+            </div>
+            <div class="admin-user-info">
+              <div class="admin-user-name">${user.name || ''}</div>
+              <div class="admin-user-email">${user.email || ''}</div>
+              <div class="admin-user-meta">
+                <span>Phone: ${user.phone || '-'}</span> |
+                <span>Location: ${user.location || '-'}</span> |
+                <span>Since: ${user.memberSince || '-'}</span>
+              </div>
+              <div class="admin-user-bio">${user.bio || ''}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+    }
+
+    // Render on load and when Manage User is selected
+    document.addEventListener('DOMContentLoaded', function() {
+      renderAdminUsers();
+      window.renderAdminUsers = renderAdminUsers;
+    });
+    // If you have a showSection function, call renderAdminUsers when showing users
+    // Example showSection implementation for admin navigation
+    function showSection(section) {
+      document.getElementById('section-title').textContent =
+        section === 'users' ? 'Manage Users' : section === 'orders' ? 'Manage Orders' : 'Manage Listings';
+      document.getElementById('admin-users-section').style.display = section === 'users' ? '' : 'none';
+      document.getElementById('admin-orders-section').style.display = section === 'orders' ? '' : 'none';
+      document.getElementById('admin-items-list').style.display = section === 'listings' ? '' : 'none';
+      if (section === 'users') renderAdminUsers();
+    }
+    // Optionally, add search bar navigation
+    document.getElementById('searchBar').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const val = this.value.trim().toLowerCase();
+        if (val.includes('user')) showSection('users');
+        else if (val.includes('order')) showSection('orders');
+        else if (val.includes('listing')) showSection('listings');
+      }
+    });
+    </script>
+    <style>
+    .admin-users-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+    .admin-user-card {
+      display: flex;
+      align-items: flex-start;
+      background: #232946;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 12px #6366f133;
+      padding: 1.2rem 1.5rem;
+      gap: 1.5rem;
+      border: 1.5px solid #6366f1;
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+    .admin-user-card:hover {
+      box-shadow: 0 8px 32px #6366f1aa;
+      border-color: #4f46e5;
+    }
+    .admin-user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1 60%, #4f46e5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px #6366f1aa;
+      margin-right: 1.1rem;
+    }
+    .admin-user-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .admin-user-name {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #a5b4fc;
+    }
+    .admin-user-email {
+      font-size: 1.01rem;
+      color: #6366f1;
+      font-weight: 600;
+    }
+    .admin-user-meta {
+      font-size: 0.97rem;
+      color: #c7d2fe;
+      margin-bottom: 0.2rem;
+    }
+    .admin-user-bio {
+      font-size: 0.98rem;
+      color: #e0e7ff;
+      margin-top: 0.2rem;
+    }
+    .admin-empty {
+      color: #a5b4fc;
+      text-align: center;
+      font-size: 1.1rem;
+      margin: 2rem 0 1rem 0;
+    }
+    </style>
+            <div id="admin-orders-section" style="display:none"></div>
+    <script>
+    // Advanced render for confirmed orders (purchases)
+    function getAllOrders() {
+      // Assume 'orders' array in localStorage, each order: {user, items, date}
+      return JSON.parse(localStorage.getItem('orders') || '[]');
+    }
+
+    function renderAdminOrders() {
+      const section = document.getElementById('admin-orders-section');
+      const orders = getAllOrders();
+      if (!orders.length) {
+        section.innerHTML = '<div class="admin-empty">No orders have been placed yet.</div>';
+        return;
+      }
+      section.innerHTML = `<div class="admin-orders-list">
+        ${orders.map(order => `
+          <div class="admin-order-card">
+            <div class="admin-order-header">
+              <span class="admin-order-user">${order.user?.name || 'Unknown User'}</span>
+              <span class="admin-order-date">${order.date ? new Date(order.date).toLocaleString() : ''}</span>
+            </div>
+            <div class="admin-order-items">
+              ${order.items.map(item => `<span class="admin-order-item">${item}</span>`).join(', ')}
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+    }
+
+    // Patch showSection to render orders
+    const origShowSection = window.showSection;
+    window.showSection = function(section) {
+      origShowSection(section);
+      if (section === 'orders') renderAdminOrders();
+    };
+    // Render on load if orders section is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      if (document.getElementById('admin-orders-section').style.display !== 'none') {
+        renderAdminOrders();
+      }
+    });
+    </script>
+    <style>
+    .admin-orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+    .admin-order-card {
+      background: #232946;
+      border-radius: 1.1rem;
+      box-shadow: 0 2px 12px #6366f133;
+      padding: 1.2rem 1.5rem;
+      border: 1.5px solid #6366f1;
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+    .admin-order-card:hover {
+      box-shadow: 0 8px 32px #6366f1aa;
+      border-color: #4f46e5;
+    }
+    .admin-order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.7rem;
+    }
+    .admin-order-user {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #a5b4fc;
+    }
+    .admin-order-date {
+      font-size: 0.98rem;
+      color: #6366f1;
+      font-weight: 600;
+    }
+    .admin-order-items {
+      font-size: 1.01rem;
+      color: #e0e7ff;
+      margin-top: 0.2rem;
+    }
+    .admin-order-item {
+      background: #6366f1;
+      color: #fff;
+      border-radius: 0.5rem;
+      padding: 0.2rem 0.7rem;
+      margin-right: 0.5rem;
+      font-size: 0.98rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 0.2rem;
+    }
+    </style>
+            <ul id="admin-items-list" style="display:none"></ul>
+    <script>
+    // Advanced render for all user listings (from profile page)
+    function getAllListings() {
+      // Assume 'users' array in localStorage, each user has a 'listings' array
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      let allListings = [];
+      users.forEach(user => {
+        if (Array.isArray(user.listings)) {
+          user.listings.forEach(listing => {
+            allListings.push({
+              owner: user.name || user.email || 'Unknown',
+              item: listing
+            });
+          });
+        }
+      });
+      return allListings;
+    }
+
+    function renderAdminListings() {
+      const section = document.getElementById('admin-items-list');
+      const listings = getAllListings();
+      if (!listings.length) {
+        section.innerHTML = '<div class="admin-empty">No listings found.</div>';
+        return;
+      }
+      section.innerHTML = listings.map((listing, idx) => `
+        <li class="admin-listing-card">
+          <span class="admin-listing-owner">${listing.owner}</span>
+          <span class="admin-listing-sep">&#8594;</span>
+          <span class="admin-listing-item">${listing.item}</span>
+          <button class="admin-listing-delete-btn" data-idx="${idx}" title="Delete Listing">&times;</button>
+        </li>
+      `).join('');
+      // Add delete logic
+      Array.from(section.querySelectorAll('.admin-listing-delete-btn')).forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const idx = parseInt(this.getAttribute('data-idx'));
+          const listing = listings[idx];
+          if (!listing) return;
+          if (!confirm(`Are you sure you want to delete the listing "${listing.item}" for ${listing.owner}?`)) return;
+          // Remove from user's listings in localStorage
+          const users = JSON.parse(localStorage.getItem('users') || '[]');
+          for (let u of users) {
+            if ((u.name === listing.owner || u.email === listing.owner) && Array.isArray(u.listings)) {
+              const i = u.listings.indexOf(listing.item);
+              if (i !== -1) {
+                u.listings.splice(i, 1);
+                break;
+              }
+            }
+          }
+          localStorage.setItem('users', JSON.stringify(users));
+          renderAdminListings();
+        });
+      });
+    }
+    
+
+    // Patch showSection to render listings
+    const origShowSectionListings = window.showSection;
+    window.showSection = function(section) {
+      origShowSectionListings(section);
+      if (section === 'listings') renderAdminListings();
+    };
+    // Render on load if listings section is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      if (document.getElementById('admin-items-list').style.display !== 'none') {
+        renderAdminListings();
+      }
+    });
+    </script>
+    <style>
+    .admin-listing-card {
+      display: flex;
+      align-items: center;
+      background: #232946;
+      border-radius: 0.8rem;
+      box-shadow: 0 2px 8px #6366f133;
+      padding: 0.7rem 1.2rem;
+      margin-bottom: 0.7rem;
+      border: 1.5px solid #6366f1;
+      font-size: 1.08rem;
+      color: #a5b4fc;
+      gap: 1.1rem;
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+    .admin-listing-card:hover {
+      box-shadow: 0 8px 32px #6366f1aa;
+      border-color: #4f46e5;
+      color: #fff;
+    }
+    .admin-listing-owner {
+      font-weight: 700;
+      color: #6366f1;
+      margin-right: 0.7rem;
+    }
+    .admin-listing-sep {
+      color: #c7d2fe;
+      font-size: 1.2rem;
+      margin: 0 0.5rem;
+    }
+    .admin-listing-item {
+      font-weight: 600;
+      color: #e0e7ff;
+    }
+    .admin-listing-delete-btn {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-left: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #ef4444aa;
+      transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+      outline: none;
+    }
+    .admin-listing-delete-btn:hover, .admin-listing-delete-btn:focus {
+      background: #b91c1c;
+      box-shadow: 0 4px 18px #ef4444cc;
+      transform: scale(1.08);
+    }
+    </style>
+        </section>
+    </div>
+    <script src="admin.js"></script>
+</body>
+</html>

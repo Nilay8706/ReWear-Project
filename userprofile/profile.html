@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard | ReWear</title>
+  <link rel="stylesheet" href="../home_page/home_page.css">
+  <link rel="stylesheet" href="profile.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #232946 0%, #16161a 100%);
+      color: #f4f4f8;
+    }
+    .dashboard-container {
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      background: #181824;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 32px rgba(99,102,241,0.18);
+      padding: 2.5rem 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      border: 1.5px solid #6366f1;
+    }
+    .profile-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 2.5rem;
+      position: relative;
+    }
+    .profile-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1 60%, #4f46e5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 16px rgba(99,102,241,0.22);
+      position: relative;
+      overflow: hidden;
+      border: 2.5px solid #232946;
+    }
+    .profile-avatar svg {
+      width: 80px;
+      height: 80px;
+      display: block;
+    }
+    .profile-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      margin-top: 0.5rem;
+    }
+    .profile-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem 1.5rem;
+    }
+    .profile-field {
+      background: #232946;
+      border-radius: 0.6rem;
+      padding: 0.7rem 1.2rem;
+      font-size: 1.08rem;
+      color: #e0e7ff;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      position: relative;
+      border: 1.5px solid #353570;
+    }
+    .profile-badge {
+      position: absolute;
+      top: -2.2rem;
+      right: -1.2rem;
+      background: #fef08a;
+      color: #a16207;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 0.7rem;
+      padding: 0.3rem 1.1rem;
+      box-shadow: 0 2px 8px rgba(251,191,36,0.18);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      z-index: 2;
+      animation: badgePop 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+      border: 1.5px solid #eab308;
+    }
+    @keyframes badgePop {
+      0% { transform: scale(0.7) translateY(-20px); opacity: 0; }
+      80% { transform: scale(1.1) translateY(2px); opacity: 1; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .profile-nickname {
+      display: inline-flex;
+      align-items: center;
+      background: #232946;
+      color: #a5b4fc;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 0.7rem;
+      padding: 0.3rem 1.1rem;
+      margin-top: 0.5rem;
+      margin-left: 1.2rem;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+      animation: badgePop 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      border: 1.5px solid #6366f1;
+    }
+    .profile-nickname:hover {
+      background: #6366f1;
+      color: #fff;
+    }
+    .profile-bio {
+      background: #232946;
+      border-radius: 0.7rem;
+      padding: 1rem 1.2rem;
+      font-size: 1.08rem;
+      color: #a5b4fc;
+      min-height: 60px;
+      margin-top: 0.7rem;
+      border: 1.5px solid #353570;
+    }
+    .section-title {
+      color: #4f46e5;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      margin-top: 1.2rem;
+    }
+    .listing-grid, .purchase-grid {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      min-height: 120px;
+    }
+    .listing-card, .purchase-card {
+      width: 120px;
+      height: 140px;
+      background: #232946;
+      border-radius: 0.8rem;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #a5b4fc;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid #353570;
+    }
+    .listing-card:hover, .purchase-card:hover {
+      background: #6366f1;
+      color: #fff;
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 8px 32px rgba(99,102,241,0.22);
+      border-color: #6366f1;
+    }
+    @media (max-width: 900px) {
+      .dashboard-container { padding: 1rem 0.2rem; }
+      .profile-header { flex-direction: column; align-items: center; gap: 1.2rem; }
+      .profile-info { align-items: center; }
+      .profile-fields { grid-template-columns: 1fr; }
+      .listing-grid, .purchase-grid { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo" id="brandLogo" tabindex="0">ReWear</div>
+  </header>
+  <div class="dashboard-container">
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="profileAvatarGradient" cx="50%" cy="50%" r="70%">
+              <stop offset="0%" stop-color="#a5b4fc"/>
+              <stop offset="100%" stop-color="#6366f1"/>
+            </radialGradient>
+          </defs>
+          <circle cx="40" cy="40" r="40" fill="url(#profileAvatarGradient)"/>
+          <ellipse cx="40" cy="32" rx="20" ry="20" fill="#fff"/>
+          <ellipse cx="40" cy="60" rx="28" ry="14" fill="#ede9fe"/>
+          <ellipse cx="40" cy="62" rx="22" ry="10" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="profile-info">
+        <div class="profile-badge"><span style="font-size:1.2rem;">&#9873;</span> <span id="profileNameDisplay">Udita Sinha</span>
+          <input id="profileNameInput" class="profile-edit-input" type="text" value="Udita Sinha" style="display:none;">
+        </div>
+        <div class="profile-fields" id="profileFields">
+          <div class="profile-field">Email: <span id="emailDisplay" style="margin-left:auto; font-weight:600; color:#6366f1;">udita@email.com</span>
+            <input id="emailInput" class="profile-edit-input" type="email" value="udita@email.com" style="display:none; margin-left:auto;">
+          </div>
+          <div class="profile-field">Phone: <span id="phoneDisplay" style="margin-left:auto; font-weight:600; color:#6366f1;">+91 9876543210</span>
+            <input id="phoneInput" class="profile-edit-input" type="text" value="+91 9876543210" style="display:none; margin-left:auto;">
+          </div>
+          <div class="profile-field">Location: <span id="locationDisplay" style="margin-left:auto; font-weight:600; color:#6366f1;">Delhi, India</span>
+            <input id="locationInput" class="profile-edit-input" type="text" value="Delhi, India" style="display:none; margin-left:auto;">
+          </div>
+          <div class="profile-field">Member Since: <span id="memberSinceDisplay" style="margin-left:auto; font-weight:600; color:#6366f1;">2024</span>
+            <input id="memberSinceInput" class="profile-edit-input" type="text" value="2024" style="display:none; margin-left:auto;">
+          </div>
+        </div>
+        <div class="profile-nickname" id="nicknameBadge"><span style="font-size:1.2rem;">&#11088;</span> <span id="nicknameDisplay">Compassionate Guanaco</span>
+          <input id="nicknameInput" class="profile-edit-input" type="text" value="Compassionate Guanaco" style="display:none;">
+        </div>
+        <div class="profile-bio" id="bioDisplay">Passionate about sustainable fashion and swapping clothes to save the planet. Always looking for new styles and friends!</div>
+        <textarea id="bioInput" class="profile-edit-input" style="display:none; width:100%; min-height:60px; border-radius:0.7rem; border:1.5px solid #353570; padding:1rem 1.2rem; font-size:1.08rem; background:#232946; color:#a5b4fc;">Passionate about sustainable fashion and swapping clothes to save the planet. Always looking for new styles and friends!</textarea>
+        <div style="margin-top:0.7rem;">
+          <button id="editProfileBtn" class="profile-action-btn">Edit Profile</button>
+          <button id="saveProfileBtn" class="profile-action-btn" style="display:none; background:#22c55e; color:#fff;">Save</button>
+          <button id="cancelProfileBtn" class="profile-action-btn" style="display:none; background:#ef4444; color:#fff;">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-title">My Listings</div>
+      <div class="listing-grid" id="listingGrid">
+        <!-- Listing items will be rendered here -->
+      </div>
+      <div style="margin-top:0.7rem;">
+        <button id="editListingsBtn" class="profile-action-btn">Edit Listings</button>
+        <button id="saveListingsBtn" class="profile-action-btn" style="display:none; background:#22c55e; color:#fff;">Save</button>
+        <button id="cancelListingsBtn" class="profile-action-btn" style="display:none; background:#ef4444; color:#fff;">Cancel</button>
+        <button id="addListingBtn" class="profile-action-btn" style="display:none; background:#6366f1; color:#fff;">+ Add Listing</button>
+      </div>
+    </div>
+    <div>
+      <div class="section-title">My Purchases</div>
+      <div class="purchase-grid" id="purchaseGrid">
+        <div class="purchase-card">Scarf</div>
+        <div class="purchase-card">Sneakers</div>
+        <div class="purchase-card">Cap</div>
+        <div class="purchase-card">Sweater</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Brand logo click/focus logic
+    document.getElementById('brandLogo').addEventListener('click', function() {
+      window.location.href = '../home_page/home_page.html';
+    });
+    document.getElementById('brandLogo').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.location.href = '../home_page/home_page.html';
+      }
+    });
+
+
+    // Load user info from localStorage (as stored in registration/login)
+    function getCurrentUser() {
+      // Assume 'isLoggedIn' is set and 'users' array is in localStorage
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const loggedInEmail = localStorage.getItem('loggedInUserEmail');
+      if (!loggedInEmail) return null;
+      return users.find(u => u.email === loggedInEmail) || null;
+    }
+
+    function setProfileFieldsFromUser(user) {
+      if (!user) return;
+      // Name
+      document.getElementById('profileNameDisplay').textContent = user.name || '';
+      document.getElementById('profileNameInput').value = user.name || '';
+      // Email
+      document.getElementById('emailDisplay').textContent = user.email || '';
+      document.getElementById('emailInput').value = user.email || '';
+      // Phone
+      document.getElementById('phoneDisplay').textContent = user.phone || '';
+      document.getElementById('phoneInput').value = user.phone || '';
+      // Location
+      document.getElementById('locationDisplay').textContent = user.location || '';
+      document.getElementById('locationInput').value = user.location || '';
+      // Member Since
+      document.getElementById('memberSinceDisplay').textContent = user.memberSince || '';
+      document.getElementById('memberSinceInput').value = user.memberSince || '';
+      // Nickname
+      document.getElementById('nicknameDisplay').textContent = user.nickname || '';
+      document.getElementById('nicknameInput').value = user.nickname || '';
+      // Bio
+      document.getElementById('bioDisplay').textContent = user.bio || '';
+      document.getElementById('bioInput').value = user.bio || '';
+    }
+
+    // On page load, set profile fields
+    document.addEventListener('DOMContentLoaded', function() {
+      const user = getCurrentUser();
+      if (user) setProfileFieldsFromUser(user);
+    });
+
+    // Profile edit logic
+    const profileFields = [
+      {display: 'profileNameDisplay', input: 'profileNameInput'},
+      {display: 'emailDisplay', input: 'emailInput'},
+      {display: 'phoneDisplay', input: 'phoneInput'},
+      {display: 'locationDisplay', input: 'locationInput'},
+      {display: 'memberSinceDisplay', input: 'memberSinceInput'},
+      {display: 'nicknameDisplay', input: 'nicknameInput'},
+      {display: 'bioDisplay', input: 'bioInput'}
+    ];
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+    const cancelProfileBtn = document.getElementById('cancelProfileBtn');
+    let profileBackup = {};
+
+    editProfileBtn.addEventListener('click', function() {
+      profileFields.forEach(f => {
+        const disp = document.getElementById(f.display);
+        const inp = document.getElementById(f.input);
+        if (disp && inp) {
+          profileBackup[f.display] = disp.textContent || disp.value;
+          disp.style.display = 'none';
+          inp.style.display = '';
+        }
+      });
+      editProfileBtn.style.display = 'none';
+      saveProfileBtn.style.display = '';
+      cancelProfileBtn.style.display = '';
+    });
+    saveProfileBtn.addEventListener('click', function() {
+      profileFields.forEach(f => {
+        const disp = document.getElementById(f.display);
+        const inp = document.getElementById(f.input);
+        if (disp && inp) {
+          disp.textContent = inp.value;
+          disp.style.display = '';
+          inp.style.display = 'none';
+        }
+      });
+      // Optionally, update localStorage for persistence
+      const user = getCurrentUser();
+      if (user) {
+        user.name = document.getElementById('profileNameInput').value;
+        user.email = document.getElementById('emailInput').value;
+        user.phone = document.getElementById('phoneInput').value;
+        user.location = document.getElementById('locationInput').value;
+        user.memberSince = document.getElementById('memberSinceInput').value;
+        user.nickname = document.getElementById('nicknameInput').value;
+        user.bio = document.getElementById('bioInput').value;
+        // Save back to users array
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        users = users.map(u => u.email === user.email ? user : u);
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+      editProfileBtn.style.display = '';
+      saveProfileBtn.style.display = 'none';
+      cancelProfileBtn.style.display = 'none';
+    });
+    cancelProfileBtn.addEventListener('click', function() {
+      profileFields.forEach(f => {
+        const disp = document.getElementById(f.display);
+        const inp = document.getElementById(f.input);
+        if (disp && inp) {
+          if (profileBackup[f.display]) {
+            if (disp.tagName === 'DIV' || disp.tagName === 'SPAN') {
+              disp.textContent = profileBackup[f.display];
+            } else {
+              disp.value = profileBackup[f.display];
+            }
+          }
+          disp.style.display = '';
+          inp.style.display = 'none';
+        }
+      });
+      editProfileBtn.style.display = '';
+      saveProfileBtn.style.display = 'none';
+      cancelProfileBtn.style.display = 'none';
+    });
+
+    // Nickname badge interaction
+    document.getElementById('nicknameBadge').addEventListener('click', function() {
+      alert('This is your unique ReWear nickname!');
+    });
+
+    // Editable Listings logic with localStorage persistence
+    let listings = [];
+    let listingsBackup = [];
+    const listingGrid = document.getElementById('listingGrid');
+    const editListingsBtn = document.getElementById('editListingsBtn');
+    const saveListingsBtn = document.getElementById('saveListingsBtn');
+    const cancelListingsBtn = document.getElementById('cancelListingsBtn');
+    const addListingBtn = document.getElementById('addListingBtn');
+
+    function getCurrentUserForListings() {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const loggedInEmail = localStorage.getItem('loggedInUserEmail');
+      if (!loggedInEmail) return null;
+      return users.find(u => u.email === loggedInEmail) || null;
+    }
+
+    function saveListingsToUser() {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const loggedInEmail = localStorage.getItem('loggedInUserEmail');
+      if (!loggedInEmail) return;
+      const idx = users.findIndex(u => u.email === loggedInEmail);
+      if (idx !== -1) {
+        users[idx].listings = listings;
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+    }
+
+    function loadListingsFromUser() {
+      const user = getCurrentUserForListings();
+      if (user && Array.isArray(user.listings)) {
+        listings = user.listings.slice();
+      } else {
+        // Default listings if none saved
+        listings = ['Jacket', 'Dress', 'Tee', 'Hoodie'];
+      }
+    }
+
+    function renderListings(editMode) {
+      listingGrid.innerHTML = '';
+      listings.forEach((item, idx) => {
+        if (editMode) {
+          const div = document.createElement('div');
+          div.className = 'listing-card';
+          div.style.position = 'relative';
+          div.innerHTML = `<input type="text" value="${item}" class="listing-edit-input" style="width:80%; background:#181824; color:#a5b4fc; border:1.5px solid #6366f1; border-radius:0.5rem; padding:0.3rem 0.7rem; font-size:1.05rem;">` +
+            `<button class="remove-listing-btn" style="position:absolute; top:8px; right:8px; background:#ef4444; color:#fff; border:none; border-radius:50%; width:22px; height:22px; font-size:1rem; cursor:pointer;">&times;</button>`;
+          div.querySelector('.remove-listing-btn').onclick = function(e) {
+            e.stopPropagation();
+            listings.splice(idx, 1);
+            renderListings(true);
+          };
+          listingGrid.appendChild(div);
+        } else {
+          // Advanced card with link to itemview
+          const link = document.createElement('a');
+          link.className = 'listing-link-card';
+          link.style.textDecoration = 'none';
+          link.style.display = 'block';
+          // Sanitize item name for filename (lowercase, no spaces/special chars)
+          const fileName = item.toLowerCase().replace(/[^a-z0-9]/g, '');
+          link.href = `../itemview/${fileName}.html`;
+          link.target = '_blank';
+          link.innerHTML = `<div class="listing-card" style="transition: box-shadow 0.2s, transform 0.2s;">${item}</div>`;
+          listingGrid.appendChild(link);
+        }
+      });
+    }
+
+    // On page load, load listings from user
+    document.addEventListener('DOMContentLoaded', function() {
+      loadListingsFromUser();
+      renderListings(false);
+    });
+
+    editListingsBtn.addEventListener('click', function() {
+      listingsBackup = listings.slice();
+      renderListings(true);
+      editListingsBtn.style.display = 'none';
+      saveListingsBtn.style.display = '';
+      cancelListingsBtn.style.display = '';
+      addListingBtn.style.display = '';
+    });
+    saveListingsBtn.addEventListener('click', function() {
+      // Save edited listings
+      const inputs = listingGrid.querySelectorAll('.listing-edit-input');
+      listings = Array.from(inputs).map(input => input.value.trim()).filter(Boolean);
+      saveListingsToUser();
+      renderListings(false);
+      editListingsBtn.style.display = '';
+      saveListingsBtn.style.display = 'none';
+      cancelListingsBtn.style.display = 'none';
+      addListingBtn.style.display = 'none';
+    });
+    cancelListingsBtn.addEventListener('click', function() {
+      listings = listingsBackup.slice();
+      renderListings(false);
+      editListingsBtn.style.display = '';
+      saveListingsBtn.style.display = 'none';
+      cancelListingsBtn.style.display = 'none';
+      addListingBtn.style.display = 'none';
+    });
+    addListingBtn.addEventListener('click', function() {
+      listings.push('New Item');
+      renderListings(true);
+    });
+  </script>
+  <style>
+    .profile-edit-input, .listing-edit-input {
+      font-family: inherit;
+      font-size: 1.05rem;
+      border: 1.5px solid #6366f1;
+      border-radius: 0.5rem;
+      padding: 0.3rem 0.7rem;
+      background: #181824;
+      color: #a5b4fc;
+      margin-left: 0.7rem;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    .profile-edit-input:focus, .listing-edit-input:focus {
+      border: 1.5px solid #4f46e5;
+      box-shadow: 0 2px 8px #6366f1aa;
+    }
+    .profile-action-btn {
+      background: #232946;
+      color: #a5b4fc;
+      border: 1.5px solid #6366f1;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-right: 0.7rem;
+      margin-bottom: 0.3rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+    }
+    .profile-action-btn:hover {
+      background: #6366f1;
+      color: #fff;
+      border: 1.5px solid #6366f1;
+    }
+    .remove-listing-btn:hover {
+      background: #ef4444cc;
+    }
+  </style>
+</body>
+</html>

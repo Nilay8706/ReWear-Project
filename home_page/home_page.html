@@ -8,13 +8,50 @@
 </head>
 <body>
     <header class="main-header">
-        <div class="logo">ReWear</div>
-        <nav>
-            <a href="#">Home</a>
+        <div class="header-left">
+            <div id="cartIcon" tabindex="0" aria-label="Cart" title="View Cart">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="cartGradient" cx="50%" cy="50%" r="70%">
+                      <stop offset="0%" stop-color="#a5b4fc"/>
+                      <stop offset="100%" stop-color="#6366f1"/>
+                    </radialGradient>
+                  </defs>
+                  <rect x="6" y="10" width="20" height="12" rx="3" fill="url(#cartGradient)"/>
+                  <rect x="10" y="8" width="12" height="4" rx="2" fill="#fff"/>
+                  <circle cx="12" cy="24" r="2.2" fill="#6366f1" stroke="#fff" stroke-width="1.2"/>
+                  <circle cx="20" cy="24" r="2.2" fill="#6366f1" stroke="#fff" stroke-width="1.2"/>
+                  <path d="M8 10 L10 8 L22 8 L24 10" stroke="#6366f1" stroke-width="1.2" fill="none"/>
+                </svg>
+                <span id="cartCount" class="cart-count-badge">0</span>
+            </div>
+        </div>
+        <nav style="flex:1; display:flex; align-items:center; justify-content:flex-start;">
+            <a href="#" style="margin-left:0;">Home</a>
             <a href="#browse">Browse</a>
+        </nav>
+        <div class="logo" id="brandLogo" tabindex="0">ReWear</div>
+        <nav style="flex:1; display:flex; align-items:center; justify-content:flex-end; gap:0.5rem;">
             <a href="../login/index.html" id="loginLink">Login</a>
-            <a href="#signup">Sign Up</a>
+
             <button id="logoutBtn" style="display:none; margin-left:1rem; padding:0.5rem 1rem; background:#6366f1; color:#fff; border:none; border-radius:0.5rem; font-size:1rem; font-weight:600; cursor:pointer;">Logout</button>
+            <div class="profile-home-container">
+                <div id="profileIcon" tabindex="0" aria-label="User Profile" title="Profile">
+                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <radialGradient id="avatarGradient" cx="50%" cy="50%" r="70%">
+                          <stop offset="0%" stop-color="#a5b4fc"/>
+                          <stop offset="100%" stop-color="#6366f1"/>
+                        </radialGradient>
+                      </defs>
+                      <circle cx="17" cy="17" r="17" fill="url(#avatarGradient)"/>
+                      <ellipse cx="17" cy="13.5" rx="6.5" ry="6.5" fill="#fff"/>
+                      <ellipse cx="17" cy="25" rx="9" ry="5" fill="#ede9fe"/>
+                      <ellipse cx="17" cy="25.5" rx="7.5" ry="4" fill="#fff"/>
+                    </svg>
+                </div>
+                <div id="profileNameHome"></div>
+            </div>
         </nav>
     </header>
     <div class="search-bar-container">
@@ -29,16 +66,16 @@
                 <h1>Swap. Save. Sustain.</h1>
                 <p>Give your clothes a new life and join the sustainable fashion movement.</p>
                 <div class="cta-buttons">
-                    <button onclick="window.location.href='#signup'">Start Swapping</button>
+                    <button id="startSwappingBtn" type="button">Start Swapping</button>
                     <button onclick="window.location.href='#browse'">Browse Items</button>
                 </div>
             </div>
             <div class="carousel" id="carousel">
                 <button class="carousel-btn left" id="carouselPrev">&#8592;</button>
                 <div class="carousel-track" id="carouselTrack">
-                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Featured 1">
-                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" alt="Featured 2">
-                    <img src="https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=400&q=80" alt="Featured 3">
+                    <img src="/imag1.jpeg" alt="Featured 1", cover>
+                    <img src="/ima2.webp" alt="Featured 2", cover>
+                    <img src="/ima3.jpg" alt="Featured 3", cover>
                 </div>
                 <button class="carousel-btn right" id="carouselNext">&#8594;</button>
             </div>
@@ -57,29 +94,29 @@
         <section class="products" id="browse">
             <h2>Product Listings</h2>
             <div class="product-list">
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="Product 1">
+                <div class="product-card" data-product="denim_jacket.html" tabindex="0">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="Denim Jacket">
                     <div class="product-info">
                         <h3>Denim Jacket</h3>
                         <p>Size: M | Like New</p>
                     </div>
                 </div>
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80" alt="Product 2">
+                <div class="product-card" data-product="summer_dress.html" tabindex="0">
+                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80" alt="Summer Dress">
                     <div class="product-info">
                         <h3>Summer Dress</h3>
                         <p>Size: S | Gently Used</p>
                     </div>
                 </div>
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Product 3">
+                <div class="product-card" data-product="graphic_tee.html" tabindex="0">
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Graphic Tee">
                     <div class="product-info">
                         <h3>Graphic Tee</h3>
                         <p>Size: L | Good Condition</p>
                     </div>
                 </div>
-                <div class="product-card">
-                    <img src="https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=400&q=80" alt="Product 4">
+                <div class="product-card" data-product="kids_hoodie.html" tabindex="0">
+                    <img src="https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=400&q=80" alt="Kids Hoodie">
                     <div class="product-info">
                         <h3>Kids Hoodie</h3>
                         <p>Size: XS | Like New</p>
@@ -119,7 +156,7 @@
                 </div>
                 <button type="submit" class="btn">Login</button>
                 <div class="register-link">
-                    <p>Don't have an account? <a href="../registration/registration page.html" id="registerLink">Register</a></p>
+                  <p>Don't have an account? <a href="../registration/registration page.html" id="registerLink">Register</a></p>
                 </div>
                 <div id="modalLoginError" style="color: red; text-align: center; margin-top: 10px; display: none;">Invalid email or password.</div>
             </form>
@@ -127,7 +164,111 @@
     </div>
     <script src="home_page.js"></script>
     <script>
+    // Advanced modal open/close and focus trap for login
+    function openLoginModal() {
+        var loginModal = document.getElementById('loginModal');
+        if (!loginModal) return;
+        loginModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        // Focus trap
+        var focusableEls = loginModal.querySelectorAll('input, button, [tabindex]:not([tabindex="-1"])');
+        var firstEl = focusableEls[0];
+        var lastEl = focusableEls[focusableEls.length - 1];
+        function trap(e) {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === firstEl) {
+                        e.preventDefault();
+                        lastEl.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastEl) {
+                        e.preventDefault();
+                        firstEl.focus();
+                    }
+                }
+            } else if (e.key === 'Escape') {
+                closeLoginModal();
+            }
+        }
+        loginModal.addEventListener('keydown', trap);
+        setTimeout(() => { firstEl && firstEl.focus(); }, 120);
+        // Close on click outside
+        loginModal.addEventListener('mousedown', function handler(e) {
+            if (e.target === loginModal) {
+                closeLoginModal();
+                loginModal.removeEventListener('mousedown', handler);
+            }
+        });
+        // Close on X
+        var closeBtn = document.getElementById('closeModal');
+        if (closeBtn) {
+            closeBtn.onclick = closeLoginModal;
+        }
+    }
+    function closeLoginModal() {
+        var loginModal = document.getElementById('loginModal');
+        if (!loginModal) return;
+        loginModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
     document.addEventListener('DOMContentLoaded', function() {
+
+        // Link Start Swapping to login modal
+        var startSwappingBtn = document.getElementById('startSwappingBtn');
+        if (startSwappingBtn) {
+            startSwappingBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openLoginModal();
+            });
+            startSwappingBtn.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLoginModal();
+                }
+            });
+        }
+
+        // Brand logo click/focus logic
+        var brandLogo = document.getElementById('brandLogo');
+        if (brandLogo) {
+            brandLogo.addEventListener('click', function() {
+                window.location.href = 'home_page.html';
+            });
+            brandLogo.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.location.href = 'home_page.html';
+                }
+            });
+        }
+        // Profile icon click/focus logic
+        var profileIcon = document.getElementById('profileIcon');
+        if (profileIcon) {
+            profileIcon.addEventListener('click', function() {
+                window.location.href = '../userprofile/profile.html';
+            });
+            profileIcon.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.location.href = '../userprofile/profile.html';
+                }
+            });
+        }
+        // Product card click logic
+        document.querySelectorAll('.product-card[data-product]').forEach(function(card) {
+            card.addEventListener('click', function() {
+                window.location.href = '../product_view/' + card.getAttribute('data-product');
+            });
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.location.href = '../product_view/' + card.getAttribute('data-product');
+                }
+            });
+            card.style.cursor = 'pointer';
+        });
+
         // Redirect to login form if user clicks Login
         var loginLink = document.getElementById('loginLink');
         if (loginLink) {
@@ -162,7 +303,170 @@
             });
         }
     });
+        // Show logged-in user's name below profile icon
+        function showProfileNameHome() {
+            var nameDiv = document.getElementById('profileNameHome');
+            if (!nameDiv) return;
+            var users = JSON.parse(localStorage.getItem('users') || '[]');
+            var email = localStorage.getItem('loggedInUserEmail');
+            if (!email) {
+                nameDiv.style.display = 'none';
+                return;
+            }
+            var user = users.find(u => u.email === email);
+            if (user && user.name) {
+                nameDiv.textContent = user.name.length > 18 ? user.name.slice(0,16) + '…' : user.name;
+                nameDiv.style.display = 'block';
+            } else {
+                nameDiv.style.display = 'none';
+            }
+        }
+        showProfileNameHome();
+        // Also update on storage change (e.g. after profile edit in another tab)
+        window.addEventListener('storage', showProfileNameHome);
     </script>
+    <style>
+
+    /* Advanced style for Start Swapping button */
+    #startSwappingBtn {
+        background: linear-gradient(90deg, #6366f1 0%, #a5b4fc 100%);
+        color: #fff;
+        font-size: 1.18rem;
+        font-weight: 700;
+        border: none;
+        border-radius: 2rem;
+        padding: 0.85rem 2.2rem;
+        margin-right: 1.2rem;
+        box-shadow: 0 4px 24px 0 rgba(99,102,241,0.13);
+        cursor: pointer;
+        transition: background 0.22s, transform 0.18s, box-shadow 0.22s;
+        outline: none;
+        position: relative;
+        z-index: 1;
+    }
+    #startSwappingBtn:hover, #startSwappingBtn:focus {
+        background: linear-gradient(90deg, #4f46e5 0%, #818cf8 100%);
+        transform: translateY(-2px) scale(1.04);
+        box-shadow: 0 8px 32px 0 rgba(99,102,241,0.18);
+    }
+    /* Modal animation */
+    #loginModal {
+        animation: modalFadeIn 0.33s cubic-bezier(.4,1.6,.6,1);
+    }
+    @keyframes modalFadeIn {
+        from { opacity: 0; transform: scale(0.98) translateY(30px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        min-width: 48px;
+        margin-right: 1.2rem;
+    }
+    #cartIcon {
+        position: relative;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+        cursor: pointer;
+        transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+        outline: none;
+        background: transparent;
+        padding: 0;
+        margin-left: 0.2rem;
+        margin-right: 0.7rem;
+    }
+    #cartIcon svg {
+        width: 32px;
+        height: 32px;
+        display: block;
+        border-radius: 50%;
+        transition: filter 0.2s, box-shadow 0.2s;
+    }
+    #cartIcon:hover svg, #cartIcon:focus svg {
+        filter: drop-shadow(0 4px 16px #6366f1aa) brightness(1.08);
+        box-shadow: 0 4px 16px 0 rgba(99,102,241,0.22);
+        outline: 2px solid #6366f1;
+    }
+    .cart-count-badge {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        background: #ef4444;
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border-radius: 50%;
+        padding: 0.1rem 0.5rem;
+        min-width: 1.2em;
+        text-align: center;
+        box-shadow: 0 2px 8px #ef4444aa;
+        border: 1.5px solid #fff;
+        z-index: 2;
+        transition: background 0.2s, color 0.2s;
+        pointer-events: none;
+    }
+
+
+    .profile-home-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-width: 60px;
+        min-height: 60px;
+        margin-left: 1rem;
+    }
+    #profileIcon {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+        cursor: pointer;
+        transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+        outline: none;
+        background: transparent;
+        padding: 0;
+    }
+    #profileIcon svg {
+        width: 34px;
+        height: 34px;
+        display: block;
+        border-radius: 50%;
+        transition: filter 0.2s, box-shadow 0.2s;
+    }
+    #profileIcon:hover svg, #profileIcon:focus svg {
+        filter: drop-shadow(0 4px 16px #6366f1aa) brightness(1.08);
+        box-shadow: 0 4px 16px 0 rgba(99,102,241,0.22);
+        outline: 2px solid #6366f1;
+    }
+    #profileNameHome {
+        display: none;
+        font-size: 1.01rem;
+        color: #6366f1;
+        font-weight: 700;
+        margin-top: 0.18rem;
+        text-align: center;
+        letter-spacing: 0.01em;
+        width: 100%;
+        max-width: 110px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.2;
+        user-select: text;
+        transition: color 0.2s;
+    }
+    </style>
     <style>
         .modal {
             display: none;
@@ -171,7 +475,7 @@
             left: 0;
             top: 0;
             width: 100vw;
-            height: 100vh;
+          height: 100vh;
             overflow: auto;
             background: rgba(0,0,0,0.4);
             justify-content: center;
@@ -249,4 +553,34 @@
         }
     </style>
 </body>
+    <script>
+    // Cart icon interactivity and count logic
+    function getCartCount() {
+        // Example: get cart from localStorage (array of items)
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        return Array.isArray(cart) ? cart.length : 0;
+    }
+    function updateCartCount() {
+        const badge = document.getElementById('cartCount');
+        if (badge) badge.textContent = getCartCount();
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartCount();
+        // Cart icon click/focus logic
+        var cartIcon = document.getElementById('cartIcon');
+        if (cartIcon) {
+            cartIcon.addEventListener('click', function() {
+                window.location.href = '../cart/cart.html';
+            });
+            cartIcon.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    window.location.href = '../cart/cart.html';
+                }
+            });
+        }
+        // Update cart count on storage change (e.g. add/remove from cart in another tab)
+        window.addEventListener('storage', updateCartCount);
+    });
+    </script>
 </html>

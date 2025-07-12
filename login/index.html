@@ -57,8 +57,28 @@
             emailInput.focus();
         } else {
             emailError.style.display = 'none';
-            // Set login flag and redirect
+            // Set login flag and store logged-in user email for profile linking
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('loggedInUserEmail', found.email);
+
+            // Migrate user info to a unified 'users' array for profile page
+            let usersArr = JSON.parse(localStorage.getItem('users') || '[]');
+            // Check if user already exists in 'users' array
+            let exists = usersArr.some(u => u.email === found.email);
+            if (!exists) {
+                // Add user info (name, email, phone, etc.)
+                usersArr.push({
+                    name: found.name || '',
+                    email: found.email,
+                    phone: found.phone || '',
+                    location: found.location || '',
+                    memberSince: found.memberSince || (new Date().getFullYear().toString()),
+                    nickname: found.nickname || '',
+                    bio: found.bio || '',
+                    listings: found.listings || ['Jacket', 'Dress', 'Tee', 'Hoodie']
+                });
+                localStorage.setItem('users', JSON.stringify(usersArr));
+            }
             window.location.href = '../home_page/home_page.html';
         }
     });

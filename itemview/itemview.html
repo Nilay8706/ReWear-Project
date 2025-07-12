@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Detail | ReWear</title>
+  <link rel="stylesheet" href="../home_page/home_page.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f4f4f8 0%, #e0e7ff 100%);
+      color: #232946;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .main-header {
+      background: #232946;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.1rem 2.2rem 1.1rem 1.5rem;
+      box-shadow: 0 2px 16px #6366f122;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #6366f1;
+      cursor: pointer;
+      transition: color 0.2s;
+      margin-right: 2.5rem;
+    }
+    .logo:hover { color: #4f46e5; }
+    .search-bar-container {
+      background: #fff;
+      padding: 0.7rem 2rem;
+      box-shadow: 0 2px 12px #6366f111;
+      display: flex;
+      justify-content: flex-end;
+      border-bottom: 1.5px solid #e0e7ff;
+    }
+    #searchBox {
+      width: 340px;
+      padding: 0.7rem 1.2rem;
+      border-radius: 1.2rem;
+      border: 1px solid #6366f1;
+      font-size: 1.08rem;
+      background: #f4f4f8;
+      color: #232946;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px #6366f122;
+      outline: none;
+      font-family: inherit;
+      margin-right: 0.6rem;
+    }
+    #searchBox:focus {
+      border: 2px solid #4f46e5;
+      box-shadow: 0 0 0 2px #6366f155;
+      background: #fff;
+    }
+    #searchBox::placeholder {
+      color: #6366f1cc;
+      opacity: 1;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+    }
+    .itemview-container {
+      max-width: 1200px;
+      margin: 2.5rem auto;
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 32px #6366f122;
+      padding: 2.5rem 2rem 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      border: 1.5px solid #6366f1;
+    }
+    .itemview-main {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .itemview-images {
+      flex: 1 1 320px;
+      min-width: 260px;
+      max-width: 340px;
+      background: linear-gradient(135deg, #6366f1 60%, #a5b4fc 100%);
+      border-radius: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      position: relative;
+      box-shadow: 0 2px 16px #6366f1aa;
+      overflow: hidden;
+      margin-bottom: 1.2rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .itemview-images:hover {
+      box-shadow: 0 8px 32px #6366f1cc;
+      transform: scale(1.03);
+    }
+    .itemview-images input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .itemview-images .add-img-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: rgba(99,102,241,0.85);
+      padding: 0.7rem 1.5rem;
+      border-radius: 0.7rem;
+      cursor: pointer;
+      z-index: 1;
+      transition: background 0.2s;
+      text-align: center;
+      box-shadow: 0 2px 8px #23294633;
+    }
+    .itemview-images .add-img-label:hover {
+      background: #4f46e5;
+    }
+    .itemview-images img {
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 0.7rem;
+      display: inline-block;
+      margin: 0.3rem;
+      box-shadow: 0 2px 12px #23294633;
+      border: 2px solid #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .itemview-images img:hover {
+      transform: scale(1.08) rotate(-2deg);
+      box-shadow: 0 4px 18px #6366f1aa;
+    }
+    .itemview-details {
+      flex: 2 1 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      min-width: 260px;
+    }
+    .itemview-details textarea {
+      width: 80%;
+      min-height: 120px;
+      border-radius: 1.2rem;
+      border: 2px solid #6366f1;
+      padding: 1.1rem 1.4rem;
+      font-size: 1.12rem;
+      background: #f4f4f8;
+      color: #232946;
+      resize: vertical;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px #6366f122;
+      outline: none;
+      font-family: inherit;
+    }
+    .itemview-details textarea:focus {
+      border: 2px solid #4f46e5;
+      box-shadow: 0 0 0 2px #6366f155;
+      background: #fff;
+    }
+    .itemview-details textarea::placeholder {
+      color: #6366f1cc;
+      opacity: 1;
+      font-size: 1.08rem;
+      letter-spacing: 0.01em;
+    }
+    .itemview-details .status-btn {
+      background: linear-gradient(90deg, #22c55e 60%, #16a34a 100%);
+      color: #fff;
+      border: none;
+      border-radius: 0.7rem;
+      padding: 0.6rem 1.5rem;
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-top: 0.7rem;
+      margin-right: 0.7rem;
+      box-shadow: 0 2px 12px #22c55e33;
+      cursor: pointer;
+      transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
+      outline: none;
+      display: inline-block;
+    }
+    .itemview-details .status-btn.swap {
+      background: linear-gradient(90deg, #6366f1 60%, #4f46e5 100%);
+    }
+    .itemview-details .status-btn:hover, .itemview-details .status-btn:focus {
+      background: #4f46e5;
+      box-shadow: 0 4px 18px #6366f1aa;
+      transform: translateY(-2px) scale(1.03);
+    }
+    .itemview-previous {
+      margin-top: 2.2rem;
+    }
+    .itemview-previous-title {
+      color: #4f46e5;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+    .itemview-previous-listings {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      min-height: 120px;
+    }
+    .itemview-prev-card {
+      width: 120px;
+      height: 140px;
+      background: #e0e7ff;
+      border-radius: 0.8rem;
+      box-shadow: 0 2px 8px #6366f1aa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #6366f1;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid #6366f1;
+    }
+    .itemview-prev-card:hover {
+      background: #6366f1;
+      color: #fff;
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 8px 32px #6366f1cc;
+      border-color: #6366f1;
+    }
+    @media (max-width: 900px) {
+      .itemview-main { flex-direction: column; gap: 1.2rem; }
+      .itemview-images, .itemview-details { max-width: 100%; }
+      .itemview-container { padding: 1rem 0.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo" id="brandLogo" tabindex="0">ReWear</div>
+  </header>
+  <div class="search-bar-container">
+    <form id="searchForm" autocomplete="off">
+      <input type="text" id="searchBox" placeholder="Search for clothing, categories, or brands...">
+      <button type="submit" aria-label="Search"><span>&#128269;</span></button>
+    </form>
+  </div>
+  <div class="itemview-container">
+    <div class="itemview-main">
+      <div class="itemview-images" id="itemImages">
+        <label class="add-img-label" for="imgInput">+ Add Images</label>
+        <input type="file" id="imgInput" accept="image/*" multiple>
+        <div id="imgPreview"></div>
+      </div>
+      <div class="itemview-details">
+        <textarea id="productDesc" placeholder="Add Product Description..."></textarea>
+        <div style="display: flex; gap: 0.7rem; align-items: center;">
+          <button id="statusBtn" class="status-btn">Available</button>
+          <button id="swapBtn" class="status-btn swap">Swap</button>
+        </div>
+      </div>
+    </div>
+    <div class="itemview-previous">
+      <div class="itemview-previous-title">Previous Listings:</div>
+      <div class="itemview-previous-listings" id="previousListings"></div>
+    </div>
+  </div>
+  <script>
+    // Brand logo navigation
+    document.getElementById('brandLogo').addEventListener('click', function() {
+      window.location.href = '../home_page/home_page.html';
+    });
+    document.getElementById('brandLogo').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.location.href = '../home_page/home_page.html';
+      }
+    });
+    // Image upload preview
+    const imgInput = document.getElementById('imgInput');
+    const imgPreview = document.getElementById('imgPreview');
+    imgInput.addEventListener('change', function() {
+      imgPreview.innerHTML = '';
+      Array.from(imgInput.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          imgPreview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+    // Status button logic
+    const statusBtn = document.getElementById('statusBtn');
+    const swapBtn = document.getElementById('swapBtn');
+    let status = 'Available';
+    statusBtn.addEventListener('click', function() {
+      status = 'Available';
+      statusBtn.style.background = 'linear-gradient(90deg, #22c55e 60%, #16a34a 100%)';
+      swapBtn.style.background = 'linear-gradient(90deg, #6366f1 60%, #4f46e5 100%)';
+    });
+    swapBtn.addEventListener('click', function() {
+      status = 'Swap';
+      swapBtn.style.background = 'linear-gradient(90deg, #22c55e 60%, #16a34a 100%)';
+      statusBtn.style.background = 'linear-gradient(90deg, #6366f1 60%, #4f46e5 100%)';
+    });
+    // Previous listings (simulate with localStorage or demo data)
+    function loadPreviousListings() {
+      // For demo, use localStorage 'userListings' or fallback
+      let listings = JSON.parse(localStorage.getItem('userListings') || '[]');
+      if (!listings.length) {
+        listings = ['Jacket', 'Dress', 'Tee', 'Hoodie'];
+      }
+      const prevDiv = document.getElementById('previousListings');
+      prevDiv.innerHTML = '';
+      listings.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'itemview-prev-card';
+        div.textContent = item;
+        prevDiv.appendChild(div);
+      });
+    }
+    loadPreviousListings();
+    // Search bar animation
+    const searchBox = document.getElementById('searchBox');
+    searchBox.addEventListener('focus', function() {
+      searchBox.style.boxShadow = '0 0 0 3px #6366f155';
+    });
+    searchBox.addEventListener('blur', function() {
+      searchBox.style.boxShadow = '0 2px 8px #6366f122';
+    });
+    // Animate image area on drag over
+    const itemImages = document.getElementById('itemImages');
+    itemImages.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      itemImages.style.boxShadow = '0 8px 32px #6366f1cc';
+      itemImages.style.transform = 'scale(1.04)';
+    });
+    itemImages.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      itemImages.style.boxShadow = '0 2px 16px #6366f1aa';
+      itemImages.style.transform = 'scale(1)';
+    });
+    itemImages.addEventListener('drop', function(e) {
+      e.preventDefault();
+      itemImages.style.boxShadow = '0 2px 16px #6366f1aa';
+      itemImages.style.transform = 'scale(1)';
+      const files = e.dataTransfer.files;
+      imgInput.files = files;
+      const event = new Event('change');
+      imgInput.dispatchEvent(event);
+    });
+  </script>
+</body>
+</html>
