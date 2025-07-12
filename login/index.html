@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel ="stylesheet" href="indexstyles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="wrapper">
+        <form id="loginForm" action="">
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="email" id="email" placeholder="Email" required>
+                <i class='bx bx-envelope'></i>
+            </div>
+            <div class="input-box">
+                <input type="text" placeholder="Username" required>
+                <i class='bx bx-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Password" required>
+                <i class='bx bx-lock-alt'></i>
+            </div>
+            <div class="remember-forgot">
+                <label><input type="checkbox">Remember me</label>
+                <a href="#">forgot password?</a>
+            </div>
+            <button type="submit" class="btn">login</button>
+            <div class="register-link">
+
+                <p>Don't have a account? <a href="../registration/registration page.html" id="registerLink">Register</a></p>
+            </div>
+        </form>
+        <div id="emailError" style="color: red; text-align: center; margin-top: 10px; display: none;">Email does not exist.</div>
+    </div>
+    <script>
+    // Login verification using localStorage (shared with registration page)
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.querySelector('#loginForm input[type="password"]');
+        const emailError = document.getElementById('emailError');
+        // Get all registered users (array)
+        let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        // For backward compatibility, also check single user
+        const singleUser = JSON.parse(localStorage.getItem('registeredUser'));
+        if (singleUser) users.push(singleUser);
+        // Count users
+        const userCount = users.length;
+        // Find matching user
+        const found = users.find(u => u.email === emailInput.value.trim().toLowerCase() && u.password === passwordInput.value);
+        if (!found) {
+            e.preventDefault();
+            emailError.textContent = 'Invalid email or password. Registered users: ' + userCount;
+            emailError.style.display = 'block';
+            emailInput.focus();
+        } else {
+            emailError.style.display = 'none';
+            // Set login flag and redirect
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.href = '../home_page/home_page.html';
+        }
+    });
+    // Optional: visually enhance the Register link and auto-redirect if already logged in
+    document.addEventListener('DOMContentLoaded', function() {
+        var regLink = document.getElementById('registerLink');
+        if (regLink) {
+            regLink.style.color = '#6366f1';
+            regLink.style.textDecoration = 'underline';
+            regLink.style.fontWeight = '600';
+            regLink.addEventListener('mouseover', function() { regLink.style.color = '#4f46e5'; });
+            regLink.addEventListener('mouseout', function() { regLink.style.color = '#6366f1'; });
+        }
+        // If already logged in, redirect to homepage
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = '../home_page/home_page.html';
+        }
+    });
+    </script>
+</body>
+</html>

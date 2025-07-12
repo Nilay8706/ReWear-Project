@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: #fff;
+            padding: 2.5rem 2rem;
+            border-radius: 1.2rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            color: #4f46e5;
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        input[type="text"], input[type="email"], input[type="date"] {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #c7d2fe;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: #f1f5f9;
+            transition: border 0.2s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="date"]:focus {
+            border: 1.5px solid #6366f1;
+            outline: none;
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #c7d2fe;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: #f1f5f9;
+            transition: border 0.2s;
+        }
+        input[type="password"]:focus {
+            border: 1.5px solid #6366f1;
+            outline: none;
+        }
+        
+        .gender-group {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+        .gender-group label {
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+        button {
+            width: 100%;
+            padding: 0.7rem;
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #4f46e5;
+        }
+        .success-message {
+            color: #16a34a;
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registrationForm" autocomplete="off">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Create a password" required>
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+
+            <label>Gender</label>
+            <div class="gender-group">
+                <label><input type="radio" name="gender" value="Male" required> Male</label>
+                <label><input type="radio" name="gender" value="Female"> Female</label>
+                <label><input type="radio" name="gender" value="Other"> Other</label>
+            </div>
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <button type="submit">Register</button>
+            <div class="login-link">Already have an account? <a href="../home_page/index.html" id="loginPageLink">Login</a></div>
+        </form>
+        <div class="success-message" id="successMessage" style="display:none;">Registration Successful!</div>
+    </div>
+    <script>
+    // Registration form logic: save to localStorage and redirect to login
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim().toLowerCase();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+        const dob = document.getElementById('dob').value;
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
+            return;
+        }
+        // Save user data for login verification
+        const userData = { name, email, password, gender, dob };
+        localStorage.setItem('registeredUser', JSON.stringify(userData));
+        document.getElementById('successMessage').style.display = 'block';
+        setTimeout(() => {
+            window.location.href = '../login/index.html';
+        }, 1200);
+    });
+    </script>
+    <script src="registration.js"></script>
+    <style>
+    .login-link {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 1rem;
+    }
+    .login-link a {
+        color: #6366f1;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+    .login-link a:hover {
+        color: #4f46e5;
+    }
+    </style>
+</body>
+</html>

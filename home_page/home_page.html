@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReWear - Home</title>
+    <link rel="stylesheet" href="home_page.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">ReWear</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#browse">Browse</a>
+            <a href="../login/index.html" id="loginLink">Login</a>
+            <a href="#signup">Sign Up</a>
+            <button id="logoutBtn" style="display:none; margin-left:1rem; padding:0.5rem 1rem; background:#6366f1; color:#fff; border:none; border-radius:0.5rem; font-size:1rem; font-weight:600; cursor:pointer;">Logout</button>
+        </nav>
+    </header>
+    <div class="search-bar-container">
+        <form id="searchForm" autocomplete="off">
+            <input type="text" id="searchBox" placeholder="Search for clothing, categories, or brands...">
+            <button type="submit" aria-label="Search"><span>&#128269;</span></button>
+        </form>
+    </div>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Swap. Save. Sustain.</h1>
+                <p>Give your clothes a new life and join the sustainable fashion movement.</p>
+                <div class="cta-buttons">
+                    <button onclick="window.location.href='#signup'">Start Swapping</button>
+                    <button onclick="window.location.href='#browse'">Browse Items</button>
+                </div>
+            </div>
+            <div class="carousel" id="carousel">
+                <button class="carousel-btn left" id="carouselPrev">&#8592;</button>
+                <div class="carousel-track" id="carouselTrack">
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Featured 1">
+                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" alt="Featured 2">
+                    <img src="https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=400&q=80" alt="Featured 3">
+                </div>
+                <button class="carousel-btn right" id="carouselNext">&#8594;</button>
+            </div>
+        </section>
+        <section class="categories" id="categories">
+            <h2>Categories</h2>
+            <div class="categories-list">
+                <div class="category-card">Men</div>
+                <div class="category-card">Women</div>
+                <div class="category-card">Kids</div>
+                <div class="category-card">Accessories</div>
+                <div class="category-card">Shoes</div>
+                <div class="category-card">Winterwear</div>
+            </div>
+        </section>
+        <section class="products" id="browse">
+            <h2>Product Listings</h2>
+            <div class="product-list">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="Product 1">
+                    <div class="product-info">
+                        <h3>Denim Jacket</h3>
+                        <p>Size: M | Like New</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80" alt="Product 2">
+                    <div class="product-info">
+                        <h3>Summer Dress</h3>
+                        <p>Size: S | Gently Used</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80" alt="Product 3">
+                    <div class="product-info">
+                        <h3>Graphic Tee</h3>
+                        <p>Size: L | Good Condition</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1469398715555-76331a6c7fa0?auto=format&fit=crop&w=400&q=80" alt="Product 4">
+                    <div class="product-info">
+                        <h3>Kids Hoodie</h3>
+                        <p>Size: XS | Like New</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="testimonials">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-list">
+                <div class="testimonial">
+                    <p>"ReWear helped me refresh my wardrobe and save money!"</p>
+                    <span>- Priya S.</span>
+                </div>
+                <div class="testimonial">
+                    <p>"Great for the environment and my closet. Highly recommend!"</p>
+                    <span>- Rahul M.</span>
+                </div>
+                <div class="testimonial">
+                    <p>"Easy to use and a fantastic community."</p>
+                    <span>- Ayesha K.</span>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <form id="modalLoginForm" autocomplete="off">
+                <h2>Login</h2>
+                <div class="input-box">
+                    <input type="email" id="modalEmail" placeholder="Email" required>
+                </div>
+                <div class="input-box">
+                    <input type="password" id="modalPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="register-link">
+                    <p>Don't have an account? <a href="../registration/registration page.html" id="registerLink">Register</a></p>
+                </div>
+                <div id="modalLoginError" style="color: red; text-align: center; margin-top: 10px; display: none;">Invalid email or password.</div>
+            </form>
+        </div>
+    </div>
+    <script src="home_page.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Redirect to login form if user clicks Login
+        var loginLink = document.getElementById('loginLink');
+        if (loginLink) {
+            loginLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = '../login/index.html';
+            });
+        }
+
+        // Show/hide logout button based on login status
+        var logoutBtn = document.getElementById('logoutBtn');
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            if (logoutBtn) logoutBtn.style.display = 'inline-block';
+            if (loginLink) loginLink.style.display = 'none';
+        } else {
+            if (logoutBtn) logoutBtn.style.display = 'none';
+            if (loginLink) loginLink.style.display = 'inline-block';
+        }
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('isLoggedIn');
+                window.location.reload();
+            });
+        }
+
+        // Close modal when clicking Register link
+        var registerLink = document.getElementById('registerLink');
+        var loginModal = document.getElementById('loginModal');
+        if (registerLink && loginModal) {
+            registerLink.addEventListener('click', function() {
+                loginModal.style.display = 'none';
+            });
+        }
+    });
+    </script>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            background: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            margin: 5% auto;
+            padding: 2rem 2.5rem 1.5rem 2.5rem;
+            border-radius: 1.2rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            width: 100%;
+            max-width: 350px;
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+        @keyframes modalFadeIn {
+            from { transform: translateY(-40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 2rem;
+            color: #6366f1;
+            cursor: pointer;
+        }
+        .modal-content h2 {
+            text-align: center;
+            color: #4f46e5;
+            margin-bottom: 1.5rem;
+        }
+        .modal-content .input-box {
+            position: relative;
+            margin-bottom: 1.2rem;
+        }
+        .modal-content input[type="email"],
+        .modal-content input[type="password"] {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1px solid #c7d2fe;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: #f1f5f9;
+            transition: border 0.2s;
+        }
+        .modal-content input[type="email"]:focus,
+        .modal-content input[type="password"]:focus {
+            border: 1.5px solid #6366f1;
+            outline: none;
+        }
+        .modal-content .btn {
+            width: 100%;
+            padding: 0.7rem;
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .modal-content .btn:hover {
+            background: #4f46e5;
+        }
+        .modal-content .register-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .modal-content .register-link a {
+            color: #6366f1;
+            text-decoration: underline;
+        }
+    </style>
+</body>
+</html>
